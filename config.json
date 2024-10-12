@@ -1,0 +1,27 @@
+{
+    "textures": {
+        "missing_texture":"C:/Users/Utilisateur/Dropbox/C_projects/missing_texture.png",
+        "background":"C:/Users/Utilisateur/Dropbox/C_projects/background.png",
+        "player":"C:/Users/Utilisateur/Dropbox/C_projects/player.gif"
+    },
+    "audio": {
+        "background_music": "path/to/music.mp3",
+        "effect_sounds": {
+            "jump": "path/to/jump.wav",
+            "explosion": "path/to/explosion.wav"
+        }
+    },
+    "settings": {
+        "window": {
+            "width": 640,
+            "height": 480,
+            "fullscreen": false
+        },
+        "controls": {
+            "move_up": "W",
+            "move_down": "S",
+            "move_left": "A",
+            "move_right": "D"
+        }
+    }
+}
