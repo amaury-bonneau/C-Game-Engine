@@ -1,0 +1,39 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up GCC
+      run: sudo apt-get install -y gcc g++ make libsdl2-dev libsdl2-image-dev libjson-c-dev
+
+    - name: Build SDL2 Project
+      run: |
+        gcc -I /usr/include/SDL2 \
+            src/main.c \
+            src/config.c \
+            src/player.c \
+            src/texture.c \
+            src/entity.c \
+            src/background.c \
+            src/collider.c \
+            src/jsonManager.c \
+            src/resourceManager.c \
+            -o build/main \
+            -lSDL2 -lSDL2_image -ljson-c \
+            -Wall -g
+
+    - name: Run Executable
+      run: |
+        chmod +x build/main
+        ./build/main
