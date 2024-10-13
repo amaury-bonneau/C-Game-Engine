@@ -1,8 +1,8 @@
 {
     "textures": {
-        "missing_texture":"C:/Users/Utilisateur/Dropbox/C_projects/missing_texture.png",
-        "background":"C:/Users/Utilisateur/Dropbox/C_projects/background.png",
-        "player":"C:/Users/Utilisateur/Dropbox/C_projects/player.gif"
+        "missing_texture":"./missing_texture.png",
+        "background":"./background.png",
+        "player":"./player.gif"
     },
     "audio": {
         "background_music": "path/to/music.mp3",
