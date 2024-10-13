@@ -20,6 +20,9 @@ jobs:
     - name: Create build directory if it does not exist
       run: if [ ! -d build ]; then mkdir build; fi
 
+    - name: Clean previous build
+      run: rm -rf build/
+
     - name: Build SDL2 Project
       run: |
         gcc -I /usr/include/SDL2 \
