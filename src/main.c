@@ -11,8 +11,6 @@
 #include "background.h"
 #include "resourceManager.h"
 
-#define MAX_ENTITIES 100
-
 int main(int argc, char *argv[]) {
 
     SDL_Window* win = NULL;
@@ -90,12 +88,12 @@ int main(int argc, char *argv[]) {
         update(player, entities, entityCount, deltaTime);
 
         // Check for collisions
-        for (size_t i = 0; i < entityCount; i++)
-        {
-            if (check_collisions(&player->collider, &entities[i]->collider)) {
-                printf("collision détectée between player and entity n°%zu \n", i);
-            }
-        }
+        // for (size_t i = 0; i < entityCount; i++)
+        // {
+        //     if (check_collisions(&player->collider, &entities[i]->collider)) {
+        //         printf("collision détectée between player and entity n°%zu \n", i);
+        //     }
+        // }
 
         // Render everything
         render_textures(ren, &background, player, entities);
