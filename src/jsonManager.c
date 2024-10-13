@@ -9,7 +9,7 @@
 char* read_file(const char *filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
-        perror("JSON Manager unable to open file");
+        fprintf(stderr, "JSON Manager unable to open file %s: ", filename);
         return NULL;
     }
 
