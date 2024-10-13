@@ -14,3 +14,6 @@ const int CHARACTER_STARTING_Y = SCREEN_HEIGHT/2;
 
 // Configuration JSON file path
 const char* CONFIG_PATH = "./config.json";
+
+// Timeout for CI/CD game termination
+const int GAME_TIMEOUT_SECONDS = 60;

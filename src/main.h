@@ -15,5 +15,6 @@ void terminate_program(Background *background, Player *player, Entity *entities[
 void render_textures(SDL_Renderer *ren, Background *background, Player *player, Entity *entities[]);
 void toggle_fullscren(SDL_Window *win, SDL_Renderer *ren);
 int return_with_delay(int valueToReturn);
+void check_timeout(float currentTime, int isCi, int *quit);
 
 #endif

@@ -26,6 +26,9 @@ int main(int argc, char *argv[]) {
     Entity* entities[MAX_ENTITIES];
     int entityCount = 0;
 
+    // Check if running in CI
+    int isCi = getenv("CI") != NULL; // Check if the CI environment variable is set
+
     win = create_window();
     if (!win) {
         terminate_program(&background, player, entities, &entityCount, ren, win, resourceManager);
@@ -77,6 +80,9 @@ int main(int argc, char *argv[]) {
         if (deltaTime > 0.1f) deltaTime = 0.1f;  // Cap deltaTime at 0.1 seconds to avoid problematic enormous or minuscule values
         lastTime = currentTime;
 
+        // Handle CI/CD timeout
+        check_timeout(currentTime, isCi, &quit);
+
         // Handle input
         handle_input(e, player, &quit, win, ren);
 
@@ -99,9 +105,6 @@ int main(int argc, char *argv[]) {
     terminate_program(&background, player, entities, &entityCount, ren, win, resourceManager);
     return_with_delay(100);
 }
-
-
-
 
 void update(Player *player, Entity *entities[], int entityCount, float deltaTime) {
     update_player(player, deltaTime);
@@ -259,4 +262,13 @@ void toggle_fullscren(SDL_Window *win, SDL_Renderer *ren) {
 int return_with_delay(int valueToReturn) {
     SDL_Delay(100);  // Small safety delay to give time for SDL resources to close
     return valueToReturn;
+}
+
+// Handle CI/CD timeout
+void check_timeout(float currentTime, int isCi, int *quit) {
+    if (isCi && currentTime >= GAME_TIMEOUT_SECONDS) {
+        printf("Game succesfully timed out after %d seconds.\n", GAME_TIMEOUT_SECONDS);
+        *quit = 1;
+    }
+    return;
 }

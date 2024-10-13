@@ -13,7 +13,13 @@ extern const int CHARACTER_HEIGHT;
 extern const int CHARACTER_STARTING_X;
 extern const int CHARACTER_STARTING_Y;
 
+// Maximum entity number allowed
+extern const int MAX_ENTITIES;
+
 // Configuration JSON file path
 extern const char* CONFIG_PATH;
+
+// Timeout for CI/CD game termination
+extern const int GAME_TIMEOUT_SECONDS;
 
 #endif
