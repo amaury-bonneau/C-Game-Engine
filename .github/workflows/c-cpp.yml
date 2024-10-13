@@ -17,6 +17,9 @@ jobs:
     - name: Set up GCC
       run: sudo apt-get install -y gcc g++ make libsdl2-dev libsdl2-image-dev libjson-c-dev
 
+    - name: Create build directory if it does not exist
+      run: if [ ! -d build ]; then mkdir build; fi
+
     - name: Build SDL2 Project
       run: |
         gcc -I /usr/include/SDL2 \
