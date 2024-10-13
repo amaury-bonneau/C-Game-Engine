@@ -86,9 +86,9 @@ int main(int argc, char *argv[]) {
         // Check for collisions
         for (size_t i = 0; i < entityCount; i++)
         {
-            // if (check_collisions(&player.collider, &entities[i]->collider)) {
-            //     printf("collision détectée");
-            // }
+            if (check_collisions(&player->collider, &entities[i]->collider)) {
+                printf("collision détectée between player and entity n°%zu \n", i);
+            }
         }
 
         // Render everything
@@ -99,6 +99,9 @@ int main(int argc, char *argv[]) {
     terminate_program(&background, player, entities, &entityCount, ren, win, resourceManager);
     return_with_delay(100);
 }
+
+
+
 
 void update(Player *player, Entity *entities[], int entityCount, float deltaTime) {
     update_player(player, deltaTime);

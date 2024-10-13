@@ -48,6 +48,9 @@ void update_entities(Entity *entities[], float deltaTime, int entityCount) {
             if (entities[i] != NULL) {
                 entities[i]->posAccumulator.x += entities[i]->velX * deltaTime;
                 entities[i]->posAccumulator.y += entities[i]->velY * deltaTime;
+
+                entities[i]->collider.rect.x = (int)(entities[i]->posAccumulator.x);
+                entities[i]->collider.rect.y = (int)(entities[i]->posAccumulator.y);
                 // printf("Entity (%f) position: (%f, %f)\n", (double)i, entities[i]->posAccumulator.x, entities[i]->posAccumulator.y);
 
             }
@@ -63,6 +66,7 @@ void update_entities(Entity *entities[], float deltaTime, int entityCount) {
 void render_entity(SDL_Renderer* ren, Entity *entity) {
     entity->rect.x = (int)(entity->posAccumulator.x);
     entity->rect.y = (int)(entity->posAccumulator.y);
+
     if (entity->texture) {
         SDL_RenderCopy(ren, entity->texture, NULL, &entity->rect);
     }

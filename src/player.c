@@ -46,6 +46,8 @@ void update_player(Player *player, float deltaTime){
     player->posAccumulator.x += player->velX * deltaTime;
     player->posAccumulator.y += player->velY * deltaTime;
     // printf("Player position: (%f, %f)\n", player->posAccumulator.x, player->posAccumulator.y);
+    player->collider.rect.x = (int)(player->posAccumulator.x);
+    player->collider.rect.y = (int)(player->posAccumulator.y);
 
 }
 
