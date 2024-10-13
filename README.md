@@ -2,7 +2,7 @@
 [![C/C++ CI](https://github.com/amaury-bonneau/C-Game-Engine/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/amaury-bonneau/C-Game-Engine/actions/workflows/c-cpp.yml)
 ![Coverage](https://img.shields.io/codecov/c/github/username/repo.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-0.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-0.x.x-blue.svg)
 
 
 ## Table of Contents
