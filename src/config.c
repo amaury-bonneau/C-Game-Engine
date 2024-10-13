@@ -12,6 +12,9 @@ const int CHARACTER_HEIGHT = 50;
 const int CHARACTER_STARTING_X = SCREEN_WIDTH/2;
 const int CHARACTER_STARTING_Y = SCREEN_HEIGHT/2;
 
+// Maximum entity number allowed
+const int MAX_ENTITIES = 100;
+
 // Configuration JSON file path
 const char* CONFIG_PATH = "./config.json";
 
