@@ -1,7 +1,7 @@
 #ifndef BACKGROUND_H
 #define BACKGROUND_H
 
-#include "resourceManager.h"
+#include "../managers/ResourceManager.h"
 
 #include <SDL.h>
 

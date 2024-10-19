@@ -2,20 +2,20 @@
 #include <SDL_image.h>
 #include <stdio.h>
 
-#include "player.h"
-#include "collider.h"
-#include "config.h"
-#include "texture.h"
+#include "../components/Player.h"
+#include "../components/Collider.h"
 
-#include "jsonManager.h"
-#include "resourceManager.h"
+#include "../Config.h"
+
+#include "../managers/ResourceManager.h"
+#include "../managers/MemoryManager.h"
 
 Player* init_player(SDL_Renderer *ren,
                     ResourceManager *resourceManager,
                     int speed,
                     int velX,
                     int velY) {
-    Player *player = malloc(sizeof(Player));  // Allocate memory for Player
+    Player *player = (Player*)allocateMemory(sizeof(Player));  // Allocate memory for Player
 
     player->speed = speed;
     player->velX = velX;
@@ -46,8 +46,6 @@ void update_player(Player *player, float deltaTime){
     player->posAccumulator.x += player->velX * deltaTime;
     player->posAccumulator.y += player->velY * deltaTime;
     // printf("Player position: (%f, %f)\n", player->posAccumulator.x, player->posAccumulator.y);
-    player->collider.rect.x = (int)(player->posAccumulator.x);
-    player->collider.rect.y = (int)(player->posAccumulator.y);
 
 }
 
@@ -61,11 +59,10 @@ void render_player(SDL_Renderer* ren, Player *player) {
 void free_player(Player *player){
     if (player) {
         printf("Player is not NULL, freeing...\n");
-        free(player);
+        freeMemory(player);
         printf("Player freed successfully.\n");
     } else {
         printf("Player is NULL, nothing to free.\n");
     }
     return;
 }
-

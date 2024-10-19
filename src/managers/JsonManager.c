@@ -1,15 +1,16 @@
-#include "jsonManager.h"
 #include "stdlib.h"
-#include "resourceManager.h"
 #include <SDL.h>
 #include <json-c/json.h>
+#include "JsonManager.h"
+#include "ResourceManager.h"
+#include "MemoryManager.h"
 
 #define JSON_ERROR -1
 
 char* read_file(const char *filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
-        fprintf(stderr, "JSON Manager unable to open file %s: ", filename);
+        perror("JSON Manager unable to open file");
         return NULL;
     }
 
@@ -18,7 +19,7 @@ char* read_file(const char *filename) {
     fseek(file, 0, SEEK_SET); // put the reading head back at the begining of the file
 
     // allocate memory needed for the content of the json file
-    char* content = (char*)malloc(length + 1);
+    char* content = (char*)allocateMemory(length + 1);
     if (content == NULL) {
         perror("JSON Manager unable to allocate memory");
         fclose(file);
@@ -45,7 +46,9 @@ char* get_string_value(struct json_object *jsonObject, const char *key) {
 
 IntResult get_int_value(struct json_object *jsonObject, const char *key) {
     struct json_object *valueObject;
-    IntResult result = {0,0};
+    IntResult result;
+    result.error = 0;
+    result.value = 0;
 
     if (json_object_object_get_ex(jsonObject, key, &valueObject)) { //check if key exists and assign value if it does
         result.value = json_object_get_int(valueObject);
@@ -91,7 +94,7 @@ const char** get_keys_from_json(json_object *jsonObject) {
     if (numKeys == 0) {
         return NULL; // there is no key to return in the json object
     }
-    const char** keys = malloc(sizeof(char*) * numKeys);
+    const char** keys = (const char**)allocateMemory(sizeof(char*) * numKeys);
     if (keys == NULL) {
         perror("JSON Manager unable to allocate memory");
         return NULL;

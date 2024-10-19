@@ -1,7 +1,7 @@
 #include <SDL.h>
-#include "background.h"
-#include "texture.h"
-#include "resourceManager.h"
+#include "../components/Background.h"
+
+#include "../managers/ResourceManager.h"
 
 Background init_background(SDL_Renderer *ren,
                             ResourceManager *resourceManager) {

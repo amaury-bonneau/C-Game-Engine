@@ -2,8 +2,8 @@
 #define PLAYER_H
 
 #include <SDL.h>
-#include "collider.h"
-#include "resourceManager.h"
+#include "../components/Collider.h"
+#include "../managers/ResourceManager.h"
 
 // This structure is an accumulator for floating point player coordinates (used in order to avoid jittery movement) 
 typedef struct {

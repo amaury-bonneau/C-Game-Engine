@@ -1,6 +1,6 @@
 #include <SDL.h>
 
-#include "collider.h"
+#include "../components/Collider.h"
 
 int check_collisions(Collider *a, Collider *b) {
     if (a == NULL || b == NULL) {

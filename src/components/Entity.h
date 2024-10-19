@@ -2,9 +2,10 @@
 #define ENTITY_H
 
 #include <SDL.h>
-#include "collider.h"
-#include "player.h"
-#include "resourceManager.h"
+#include "../components/Collider.h"
+#include "../components/Player.h"
+
+#include "../managers/ResourceManager.h"
 
 // Generic entity
 typedef struct {

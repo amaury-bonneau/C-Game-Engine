@@ -2,14 +2,14 @@
 #include <SDL_image.h>
 #include <stdio.h>
 
-#include "main.h"
-#include "player.h"
-#include "texture.h"
-#include "config.h"
-#include "entity.h"
-#include "collider.h"
-#include "background.h"
-#include "resourceManager.h"
+#include "Main.h"
+#include "components/Player.h"
+#include "components/Entity.h"
+#include "components/Collider.h"
+#include "components/Background.h"
+#include "Config.h"
+
+#include "managers/ResourceManager.h"
 
 int main(int argc, char *argv[]) {
 

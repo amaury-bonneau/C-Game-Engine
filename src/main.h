@@ -2,10 +2,11 @@
 #define MAIN_H
 
 #include <SDL.h>
-#include "player.h"
-#include "background.h"
-#include "resourceManager.h"
-#include "entity.h"
+#include "components/Player.h"
+#include "components/Entity.h"
+#include "components/Background.h"
+
+#include "managers/ResourceManager.h"
 
 SDL_Window* create_window();
 SDL_Renderer* create_renderer();

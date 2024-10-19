@@ -1,15 +1,17 @@
-#include "entity.h"
-#include "collider.h"
-#include "config.h"
-#include "texture.h"
-#include "resourceManager.h"
+#include "../components/Entity.h"
+#include "../components/Collider.h"
+
+#include "../Config.h"
+
+#include "../managers/ResourceManager.h"
+#include "../managers/MemoryManager.h"
 
 Entity* init_entity(SDL_Renderer *ren,
                     ResourceManager *resourceManager,
                     int speed,
                     int velX,
                     int velY) {
-    Entity *entity = malloc(sizeof(Entity));
+    Entity *entity = (Entity*)allocateMemory(sizeof(Entity));
     if (entity == NULL) {
         printf("Failed to allocate memory for entity\n");
         return NULL;
@@ -48,9 +50,6 @@ void update_entities(Entity *entities[], float deltaTime, int entityCount) {
             if (entities[i] != NULL) {
                 entities[i]->posAccumulator.x += entities[i]->velX * deltaTime;
                 entities[i]->posAccumulator.y += entities[i]->velY * deltaTime;
-
-                entities[i]->collider.rect.x = (int)(entities[i]->posAccumulator.x);
-                entities[i]->collider.rect.y = (int)(entities[i]->posAccumulator.y);
                 // printf("Entity (%f) position: (%f, %f)\n", (double)i, entities[i]->posAccumulator.x, entities[i]->posAccumulator.y);
 
             }
@@ -66,7 +65,6 @@ void update_entities(Entity *entities[], float deltaTime, int entityCount) {
 void render_entity(SDL_Renderer* ren, Entity *entity) {
     entity->rect.x = (int)(entity->posAccumulator.x);
     entity->rect.y = (int)(entity->posAccumulator.y);
-
     if (entity->texture) {
         SDL_RenderCopy(ren, entity->texture, NULL, &entity->rect);
     }
@@ -80,7 +78,7 @@ void free_entities(Entity *entities[], int *entityCount) {
                 if (entities[i]->texture) {
                     SDL_DestroyTexture(entities[i]->texture); // Free associated texture
                 }
-                free(entities[i]);  // Free the entity itself
+                freeMemory(entities[i]);  // Free the entity itself
                 entities[i] = NULL; // Set pointer to NULL for safety
             }
         }
@@ -89,4 +87,3 @@ void free_entities(Entity *entities[], int *entityCount) {
     // Reset entity count to 0
     *entityCount = 0; 
 }
-

@@ -1,8 +1,9 @@
-#include "resourceManager.h"
+#include "ResourceManager.h"
 #include <SDL.h>
 #include <SDL_image.h>
-#include "jsonManager.h"
-#include "config.h"
+#include "JsonManager.h"
+#include "MemoryManager.h"
+#include "../Config.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -11,7 +12,7 @@
 ResourceManager* load_resources(SDL_Renderer *ren) {
 
     // Initialize resource manager
-    ResourceManager *resourceManager = (ResourceManager*)malloc(sizeof(ResourceManager));
+    ResourceManager *resourceManager = (ResourceManager*)allocateMemory(sizeof(ResourceManager));
     if (resourceManager == NULL) {
         SDL_Log("Failed to allocate ResourceManager");
         return NULL;
@@ -76,7 +77,7 @@ ResourceManager* load_resources(SDL_Renderer *ren) {
         }
 
         // Allocate memory for the TextureEntry
-        TextureEntry *entry = (TextureEntry*)malloc(sizeof(TextureEntry));
+        TextureEntry *entry = (TextureEntry*)allocateMemory(sizeof(TextureEntry));
         if (!entry) {
             SDL_Log("Failed to allocate memory for texture entry: %s", textureKeys[i]);
             SDL_DestroyTexture(texture);  // Cleanup texture if allocation fails
