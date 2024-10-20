@@ -11,7 +11,7 @@
 #include "../managers/memory_manager.h"
 
 Player* init_player(SDL_Renderer *ren,
-                    ResourceManager *resourceManager,
+                    ResourceManager *resource_manager,
                     int speed,
                     int velX,
                     int velY) {
@@ -27,7 +27,7 @@ Player* init_player(SDL_Renderer *ren,
     player->rect.y = CHARACTER_STARTING_Y;
 
     // Loading player texture
-    player->texture = get_texture(resourceManager, "player");
+    player->texture = get_texture(resource_manager, "player");
     if (!player->texture) {
         printf("Failed to load player texture or fallback texture\n");
     }

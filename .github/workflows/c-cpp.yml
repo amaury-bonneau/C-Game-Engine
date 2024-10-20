@@ -32,6 +32,7 @@ jobs:
     - name: Build Main Application
       run: |
         gcc -I /usr/include/SDL2 \
+            -I src \
             src/main.c \
             src/config.c \
             src/components/background.c \
@@ -54,6 +55,7 @@ jobs:
       run: |
         gcc -I /usr/include/SDL2 \
             tests/*.c \
+            -I src \
             src/main.c \
             src/config.c \
             src/components/background.c \
