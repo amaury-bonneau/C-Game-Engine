@@ -22,7 +22,7 @@ typedef struct {
     Collider collider;
 } Player;
 
-Player* init_player(SDL_Renderer *ren, ResourceManager *resourceManager, int speed, int velX, int velY);
+Player* init_player(SDL_Renderer *ren, ResourceManager *resource_manager, int speed, int velX, int velY);
 void update_player(Player *player, float delta_time);
 void render_player(SDL_Renderer* ren, Player *player);
 void free_player(Player *player);
