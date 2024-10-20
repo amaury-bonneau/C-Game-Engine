@@ -2,10 +2,10 @@
 #define ENTITY_H
 
 #include <SDL.h>
-#include "../components/Collider.h"
-#include "../components/Player.h"
+#include "../components/collider_component.h"
+#include "../components/player.h"
 
-#include "../managers/ResourceManager.h"
+#include "../managers/resource_manager.h"
 
 // Generic entity
 typedef struct {
@@ -15,13 +15,13 @@ typedef struct {
     SDL_Rect rect;
     SDL_Texture *texture;
     Collider collider;
-    PositionAccumulator posAccumulator;
+    PositionAccumulator position_accumulator;
 } Entity;
 
-Entity* init_entity(SDL_Renderer *ren, ResourceManager *resourceManager, int speed, int velX, int velY);
-void update_entities(Entity *entities[], float deltaTime, int entityIndex);
+Entity* init_entity(SDL_Renderer *ren, ResourceManager *resource_manager, int speed, int velX, int velY);
+void update_entities(Entity *entities[], float delta_time, int entityIndex);
 void render_entity(SDL_Renderer* ren, Entity *entity);
 void free_entity(Entity *entity);
-void free_entities(Entity *entities[], int *entityCount);
+void free_entities(Entity *entities[], int *entity_count);
 
 #endif

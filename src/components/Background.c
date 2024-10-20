@@ -1,12 +1,12 @@
 #include <SDL.h>
-#include "../components/Background.h"
+#include "../components/background.h"
 
-#include "../managers/ResourceManager.h"
+#include "../managers/resource_manager.h"
 
 Background init_background(SDL_Renderer *ren,
-                            ResourceManager *resourceManager) {
+                            ResourceManager *resource_manager) {
     Background background;
-    background.texture =  get_texture(resourceManager, "background");
+    background.texture =  get_texture(resource_manager, "background");
 
     if (!background.texture) {
         printf("Failed to load background texture or fallback texture\n");

@@ -2,13 +2,13 @@
 #include <SDL_image.h>
 #include <stdio.h>
 
-#include "../components/Player.h"
-#include "../components/Collider.h"
+#include "../components/player.h"
+#include "../components/collider_component.h"
 
-#include "../Config.h"
+#include "../config.h"
 
-#include "../managers/ResourceManager.h"
-#include "../managers/MemoryManager.h"
+#include "../managers/resource_manager.h"
+#include "../managers/memory_manager.h"
 
 Player* init_player(SDL_Renderer *ren,
                     ResourceManager *resourceManager,
@@ -32,8 +32,8 @@ Player* init_player(SDL_Renderer *ren,
         printf("Failed to load player texture or fallback texture\n");
     }
 
-    player->posAccumulator.x = SCREEN_WIDTH / 2.0f;
-    player->posAccumulator.y = SCREEN_HEIGHT / 2.0f;
+    player->position_accumulator.x = SCREEN_WIDTH / 2.0f;
+    player->position_accumulator.y = SCREEN_HEIGHT / 2.0f;
     
     player->collider.rect = player->rect;
     player->collider.isCircle = 0;
@@ -42,16 +42,16 @@ Player* init_player(SDL_Renderer *ren,
     return player;
 }
 
-void update_player(Player *player, float deltaTime){
-    player->posAccumulator.x += player->velX * deltaTime;
-    player->posAccumulator.y += player->velY * deltaTime;
-    // printf("Player position: (%f, %f)\n", player->posAccumulator.x, player->posAccumulator.y);
+void update_player(Player *player, float delta_time){
+    player->position_accumulator.x += player->velX * delta_time;
+    player->position_accumulator.y += player->velY * delta_time;
+    // printf("Player position: (%f, %f)\n", player->position_accumulator.x, player->position_accumulator.y);
 
 }
 
 void render_player(SDL_Renderer* ren, Player *player) {
-        player->rect.x = (int)(player->posAccumulator.x);
-        player->rect.y = (int)(player->posAccumulator.y);
+        player->rect.x = (int)(player->position_accumulator.x);
+        player->rect.y = (int)(player->position_accumulator.y);
 
         SDL_RenderCopy(ren, player->texture, NULL, &player->rect);
 }

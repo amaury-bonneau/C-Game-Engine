@@ -1,5 +1,5 @@
-#include "../components/Entity.h"
-#include "../components/TransformComponent.h"
+#include "../components/entity.h"
+#include "../components/transform_component.h"
 
 typedef struct Node
 {

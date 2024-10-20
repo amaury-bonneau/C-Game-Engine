@@ -1,9 +1,9 @@
-#include "ResourceManager.h"
+#include "resource_manager.h"
 #include <SDL.h>
 #include <SDL_image.h>
-#include "JsonManager.h"
-#include "MemoryManager.h"
-#include "../Config.h"
+#include "json_manager.h"
+#include "memory_manager.h"
+#include "../config.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -12,20 +12,20 @@
 ResourceManager* load_resources(SDL_Renderer *ren) {
 
     // Initialize resource manager
-    ResourceManager *resourceManager = (ResourceManager*)allocateMemory(sizeof(ResourceManager));
-    if (resourceManager == NULL) {
+    ResourceManager *resource_manager = (ResourceManager*)allocateMemory(sizeof(ResourceManager));
+    if (resource_manager == NULL) {
         SDL_Log("Failed to allocate ResourceManager");
         return NULL;
     }
 
-    resourceManager->textureCount = 0;
-    resourceManager->otherResource = NULL;
+    resource_manager->textureCount = 0;
+    resource_manager->otherResource = NULL;
 
     // Read the JSON file
     char* jsonContent = read_file(CONFIG_PATH);
     if (jsonContent == NULL) {
         SDL_Log("Failed to read JSON file");
-        free(resourceManager);
+        free(resource_manager);
         return NULL;
     }
 
@@ -34,7 +34,7 @@ ResourceManager* load_resources(SDL_Renderer *ren) {
     if (jsonObject == NULL) {
         SDL_Log("Failed to parse JSON data");
         free(jsonContent);
-        free(resourceManager);
+        free(resource_manager);
         return NULL;
     }
 
@@ -44,7 +44,7 @@ ResourceManager* load_resources(SDL_Renderer *ren) {
         SDL_Log("Failed to find 'textures' object in JSON");
         json_object_put(jsonObject);
         free(jsonContent);
-        free(resourceManager);
+        free(resource_manager);
         return NULL;
     }
 
@@ -52,7 +52,7 @@ ResourceManager* load_resources(SDL_Renderer *ren) {
     int numKeys = json_object_object_length(texturesObject);
 
     // Iterate over textureKeys and load textures
-    for (int i = 0; i < numKeys && resourceManager->textureCount < MAX_TEXTURES; i++) {
+    for (int i = 0; i < numKeys && resource_manager->textureCount < MAX_TEXTURES; i++) {
         char keyPath[256];  // Holds the full JSON key path
         snprintf(keyPath, sizeof(keyPath), "textures/%s", textureKeys[i]);
 
@@ -94,9 +94,9 @@ ResourceManager* load_resources(SDL_Renderer *ren) {
         }
         entry->texture = texture;
 
-        // Add to the resourceManager's texture array
-        resourceManager->textures[resourceManager->textureCount] = entry;
-        resourceManager->textureCount++;  // Increment texture count
+        // Add to the resource_manager's texture array
+        resource_manager->textures[resource_manager->textureCount] = entry;
+        resource_manager->textureCount++;  // Increment texture count
     }
 
     // Cleanup JSON data
@@ -104,23 +104,23 @@ ResourceManager* load_resources(SDL_Renderer *ren) {
     json_object_put(jsonObject);
     free(jsonContent);
 
-    return resourceManager;
+    return resource_manager;
 }
 
-SDL_Texture* get_texture(ResourceManager* resourceManager, const char* key) {
+SDL_Texture* get_texture(ResourceManager* resource_manager, const char* key) {
     // Search through the textures to find the matching key
-    for (int i = 0; i < resourceManager->textureCount; i++) {
-        if (strcmp(resourceManager->textures[i]->key, key) == 0) {
-            return resourceManager->textures[i]->texture;
+    for (int i = 0; i < resource_manager->textureCount; i++) {
+        if (strcmp(resource_manager->textures[i]->key, key) == 0) {
+            return resource_manager->textures[i]->texture;
         }
     }
 
     printf("Error loading texture from key: %s. Falling back to missing texture.\n", key);
 
     const char *fallbackTextureKey = "missing_texture"; 
-    for (int i = 0; i < resourceManager->textureCount; i++) {
-        if (strcmp(resourceManager->textures[i]->key, fallbackTextureKey) == 0) {
-            return resourceManager->textures[i]->texture;
+    for (int i = 0; i < resource_manager->textureCount; i++) {
+        if (strcmp(resource_manager->textures[i]->key, fallbackTextureKey) == 0) {
+            return resource_manager->textures[i]->texture;
         }
     }
 
@@ -128,34 +128,34 @@ SDL_Texture* get_texture(ResourceManager* resourceManager, const char* key) {
     return NULL;  // Texture not found
 }
 
-void unload_textures(ResourceManager* resourceManager) {
+void unload_textures(ResourceManager* resource_manager) {
     // Free all textures and their associated memory
-    for (int i = 0; i < resourceManager->textureCount; i++) {
-        if (resourceManager->textures[i]) {
-            if (resourceManager->textures[i]->texture) {
-                SDL_DestroyTexture(resourceManager->textures[i]->texture);  // Destroy the SDL texture
-                resourceManager->textures[i]->texture = NULL;  // Avoid dangling pointer
+    for (int i = 0; i < resource_manager->textureCount; i++) {
+        if (resource_manager->textures[i]) {
+            if (resource_manager->textures[i]->texture) {
+                SDL_DestroyTexture(resource_manager->textures[i]->texture);  // Destroy the SDL texture
+                resource_manager->textures[i]->texture = NULL;  // Avoid dangling pointer
             }
-            if (resourceManager->textures[i]->key) {
-                free(resourceManager->textures[i]->key);  // Free the key string
-                resourceManager->textures[i]->key = NULL;  // Avoid dangling pointer
+            if (resource_manager->textures[i]->key) {
+                free(resource_manager->textures[i]->key);  // Free the key string
+                resource_manager->textures[i]->key = NULL;  // Avoid dangling pointer
             }
-            free(resourceManager->textures[i]);  // Free the TextureEntry
-            resourceManager->textures[i] = NULL;  // Avoid dangling pointer
+            free(resource_manager->textures[i]);  // Free the TextureEntry
+            resource_manager->textures[i] = NULL;  // Avoid dangling pointer
         }
     }
-    resourceManager->textureCount = 0;  // Reset texture count
+    resource_manager->textureCount = 0;  // Reset texture count
 }
 
-void unload_resources(ResourceManager* resourceManager) {
+void unload_resources(ResourceManager* resource_manager) {
     // Unload all textures
-    unload_textures(resourceManager);
+    unload_textures(resource_manager);
 
     // Free other resources, if any (e.g., otherResource)
-    if (resourceManager->otherResource) {
-        free(resourceManager->otherResource);
+    if (resource_manager->otherResource) {
+        free(resource_manager->otherResource);
     }
 
     // Finally, free the resource manager itself
-    free(resourceManager);
+    free(resource_manager);
 }

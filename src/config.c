@@ -1,4 +1,4 @@
-#include "Config.h"
+#include "config.h"
 
 // Screen dimensions
 const int SCREEN_WIDTH = 640;

@@ -1,8 +1,8 @@
 {
     "textures": {
-        "missing_texture":"./missing_texture.png",
-        "background":"./background.png",
-        "player":"./player.gif"
+        "missing_texture":"./assets/missing_texture.png",
+        "background":"./assets/background.png",
+        "player":"./assets/player.gif"
     },
     "audio": {
         "background_music": "path/to/music.mp3",

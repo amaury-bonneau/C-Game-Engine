@@ -13,40 +13,71 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
-    
-    env:
-      CI: "true"
+    timeout-minutes: 10
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up GCC
-      run: sudo apt-get install -y gcc g++ make libsdl2-dev libsdl2-image-dev libjson-c-dev
-    
+    - name: Set up GCC and dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc g++ make libsdl2-dev libsdl2-image-dev libjson-c-dev
+
     - name: Clean and create build directory
       run: |
         rm -rf build/*
-        mkdir -p build
-    
-    - name: Build SDL2 Project
+        mkdir -p build/tests
+
+    - name: Build Main Application
       run: |
         gcc -I /usr/include/SDL2 \
             src/main.c \
             src/config.c \
-            src/player.c \
-            src/texture.c \
-            src/entity.c \
-            src/background.c \
-            src/collider.c \
-            src/jsonManager.c \
-            src/resourceManager.c \
-            -o build/main \
-            -lSDL2 -lSDL2_image -ljson-c \
+            src/components/background.c \
+            src/components/collider_component.c \
+            src/components/entity.c \
+            src/components/player.c \
+            src/components/transform_component.c \
+            src/managers/json_manager.c \
+            src/managers/memory_manager.c \
+            src/managers/rendering_manager.c \
+            src/managers/resource_manager.c \
+            src/managers/scene_manager.c \
+            -lSDL2 \
+            -lSDL2_image \
+            -ljson-c \
+            -o build/main.exe \
             -Wall -g
 
-    - name: Run Executable
+    - name: Build Tests
       run: |
-        chmod +x build/main
-        ./build/main
+        gcc -I /usr/include/SDL2 \
+            tests/*.c \
+            src/main.c \
+            src/config.c \
+            src/components/background.c \
+            src/components/collider_component.c \
+            src/components/entity.c \
+            src/components/player.c \
+            src/components/transform_component.c \
+            src/managers/json_manager.c \
+            src/managers/memory_manager.c \
+            src/managers/rendering_manager.c \
+            src/managers/resource_manager.c \
+            src/managers/scene_manager.c \
+            -lSDL2 \
+            -lSDL2_image \
+            -ljson-c \
+            -o build/tests/tests.exe \
+            -Wall -g
+
+    - name: Run Main Application
+      run: |
+        chmod +x build/main.exe
+        ./build/main.exe
+
+    - name: Run Tests
+      run: |
+        chmod +x build/tests/tests.exe
+        ./build/tests/tests.exe

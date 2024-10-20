@@ -2,67 +2,67 @@
 #include <SDL_image.h>
 #include <stdio.h>
 
-#include "Main.h"
-#include "components/Player.h"
-#include "components/Entity.h"
-#include "components/Collider.h"
-#include "components/Background.h"
-#include "Config.h"
+#include "main.h"
+#include "components/player.h"
+#include "components/entity.h"
+#include "components/collider_component.h"
+#include "components/background.h"
+#include "config.h"
 
-#include "managers/ResourceManager.h"
+#include "managers/resource_manager.h"
 
 int main(int argc, char *argv[]) {
 
     SDL_Window* win = NULL;
     SDL_Renderer* ren = NULL;
-    ResourceManager* resourceManager = NULL;
+    ResourceManager* resource_manager = NULL;
 
     Player* player = NULL;
     Background background;
 
     // Entity storing
     Entity* entities[MAX_ENTITIES];
-    int entityCount = 0;
+    int entity_count = 0;
 
     // Check if running in CI
-    int isCi = getenv("CI") != NULL; // Check if the CI environment variable is set
+    int is_ci = getenv("CI") != NULL; // Check if the CI environment variable is set
 
     win = create_window();
     if (!win) {
-        terminate_program(&background, player, entities, &entityCount, ren, win, resourceManager);
+        terminate_program(&background, player, entities, &entity_count, ren, win, resource_manager);
         return_with_delay(1);
     }
     ren = create_renderer(win);
     if (!ren) {
-        terminate_program(&background, player, entities, &entityCount, ren, win, resourceManager);
+        terminate_program(&background, player, entities, &entity_count, ren, win, resource_manager);
         return_with_delay(1);
     }
     // Set logical size for initial window size
     SDL_RenderSetLogicalSize(ren, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    // Initialize resourceManager
-    resourceManager = load_resources(ren);
+    // Initialize resource_manager
+    resource_manager = load_resources(ren);
 
     // Initialize Background
-    background = init_background(ren, resourceManager);
+    background = init_background(ren, resource_manager);
 
     // Initialize Player
     int speed = 200;
     int velX = 0, velY = 0;
-    player = init_player(ren, resourceManager, speed, velX, velY);
+    player = init_player(ren, resource_manager, speed, velX, velY);
 
-    float deltaTime = 0;
-    float lastTime = SDL_GetTicks() / 1000.0f; // initializing lastTime right at start so deltaTime has a meaningful value
+    float delta_time = 0;
+    float last_time = SDL_GetTicks() / 1000.0f; // initializing last_time right at start so delta_time has a meaningful value
     
     // Initialize entities
-    Entity *obstacle = init_entity(ren, resourceManager, speed, velX, velY);
+    Entity *obstacle = init_entity(ren, resource_manager, speed, velX, velY);
     if (obstacle == NULL) {
         printf("Failed to initialize entity\n");
-        terminate_program(&background, player, entities, &entityCount, ren, win, resourceManager);
+        terminate_program(&background, player, entities, &entity_count, ren, win, resource_manager);
         return_with_delay(1);  // Exit early if entity creation failed
     }
-    if (entityCount < MAX_ENTITIES) {
-        entities[entityCount++] = obstacle;
+    if (entity_count < MAX_ENTITIES) {
+        entities[entity_count++] = obstacle;
     } else {
         printf("Error: max number of entities attained.");
     }
@@ -73,22 +73,22 @@ int main(int argc, char *argv[]) {
 
     // Main loop
     while (!quit) {
-        float currentTime = SDL_GetTicks() / 1000.0f; // The number of seconds elapsed since init of SDL lib at start of the program
-        deltaTime = currentTime - lastTime; // The delta between current frame time and previous frame time
-        if (deltaTime > 0.1f) deltaTime = 0.1f;  // Cap deltaTime at 0.1 seconds to avoid problematic enormous or minuscule values
-        lastTime = currentTime;
+        float current_time = SDL_GetTicks() / 1000.0f; // The number of seconds elapsed since init of SDL lib at start of the program
+        delta_time = current_time - last_time; // The delta between current frame time and previous frame time
+        if (delta_time > 0.1f) delta_time = 0.1f;  // Cap delta_time at 0.1 seconds to avoid problematic enormous or minuscule values
+        last_time = current_time;
 
         // Handle CI/CD timeout
-        check_timeout(currentTime, isCi, &quit);
+        check_timeout(current_time, is_ci, &quit);
 
         // Handle input
         handle_input(e, player, &quit, win, ren);
 
         // Update logic (player position, etc.)
-        update(player, entities, entityCount, deltaTime);
+        update(player, entities, entity_count, delta_time);
 
         // Check for collisions
-        // for (size_t i = 0; i < entityCount; i++)
+        // for (size_t i = 0; i < entity_count; i++)
         // {
         //     if (check_collisions(&player->collider, &entities[i]->collider)) {
         //         printf("collision détectée between player and entity n°%zu \n", i);
@@ -100,21 +100,21 @@ int main(int argc, char *argv[]) {
 
     }
 
-    terminate_program(&background, player, entities, &entityCount, ren, win, resourceManager);
+    terminate_program(&background, player, entities, &entity_count, ren, win, resource_manager);
     return_with_delay(100);
 }
 
-void update(Player *player, Entity *entities[], int entityCount, float deltaTime) {
-    update_player(player, deltaTime);
-    // update_entities(entities, deltaTime, entityCount);
+void update(Player *player, Entity *entities[], int entity_count, float delta_time) {
+    update_player(player, delta_time);
+    // update_entities(entities, delta_time, entity_count);
 }
 
-void terminate_program(Background *background, Player *player, Entity *entities[], int *entityCount, SDL_Renderer *ren, SDL_Window *win, ResourceManager *resourceManager) {
+void terminate_program(Background *background, Player *player, Entity *entities[], int *entity_count, SDL_Renderer *ren, SDL_Window *win, ResourceManager *resource_manager) {
     printf("Terminating program...\n");
 
-    if (resourceManager) {
+    if (resource_manager) {
         printf("Unloading resources...\n");
-        unload_resources(resourceManager);
+        unload_resources(resource_manager);
     }
 
     // Free game-specific resources
@@ -131,7 +131,7 @@ void terminate_program(Background *background, Player *player, Entity *entities[
 
     if (entities) {
         printf("Freeing entities...\n");
-        free_entities(entities, entityCount);
+        free_entities(entities, entity_count);
     }
 
     // Free SDL-specific resources (renderer before window)
@@ -166,8 +166,8 @@ void render_textures(SDL_Renderer* ren, Background *background, Player *player, 
         
         // Render the entities 
         if (entities != NULL) {
-            entities[0]->rect.x = (int)(entities[0]->posAccumulator.x);
-            entities[0]->rect.y = (int)(entities[0]->posAccumulator.y);
+            entities[0]->rect.x = (int)(entities[0]->position_accumulator.x);
+            entities[0]->rect.y = (int)(entities[0]->position_accumulator.y);
             render_entity(ren, entities[0]);
         }
         
@@ -263,8 +263,8 @@ int return_with_delay(int valueToReturn) {
 }
 
 // Handle CI/CD timeout
-void check_timeout(float currentTime, int isCi, int *quit) {
-    if (isCi && currentTime >= GAME_TIMEOUT_SECONDS) {
+void check_timeout(float current_time, int is_ci, int *quit) {
+    if (is_ci && current_time >= GAME_TIMEOUT_SECONDS) {
         printf("Game succesfully timed out after %d seconds.\n", GAME_TIMEOUT_SECONDS);
         *quit = 1;
     }

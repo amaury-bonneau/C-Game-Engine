@@ -17,6 +17,7 @@
 - [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
+- [Perspectives](#perspectives)
 
 ## Introduction
 This project is a simple game engine built using the Simple DirectMedia Layer (SDL) library. It serves as a foundation for developing 2D games in C, providing functionality for rendering graphics, handling user input, and managing game entities.
@@ -44,45 +45,80 @@ This project is a simple game engine built using the Simple DirectMedia Layer (S
 2. Make sure SDL2 and SDL_image are installed on your system. You can install them using a package manager or build from source.
 
 3. Compile the project:
-    ```bash
-    gcc -o game main.c player.c texture.c config.c entity.c collider.c background.c resourceManager.c -lSDL2 -lSDL2_image
+
+   Here is an example GCC compilation command for Windows with SDL installed via Cygwin:
+
+   ```bash
+   gcc -I "C:\Path\To\SDL2\include" \
+       src\*.c \
+       src\components\*.c \
+       src\managers\*.c \
+       -o build\main.exe \
+       -lSDL2 \
+       -lSDL2_image \
+       -Wall \
+       -g
     ```
-### Running the Game
-To run the game, place yourself in the built game file and execute the following command:
-    ```bash
-    ./game
+    Feel free to modify this command according to your project’s needs. If you have different configurations or setups, you may need to adjust the command accordingly. The use of * wildcard instead of complete source files names is for convenience only and not fit for production.
+
+### Running the Program
+To run the Program, place yourself in the built Program file and execute the following command:
+    ```
+    ./main
     ```
 
 ## Usage
 The engine's main loop manages events, updates game logic, and calls functions from the modules. You can add your game-specific logic by modifying or extending the provided functions:
 
 - handle_input(SDL_Event e, Player *player, int *quit, SDL_Window *win, SDL_Renderer *ren): Handles user input.
-- update(Player *player, Entity *entities[], int entityCount, float deltaTime): Updates the player and entities and account for framerate variations.
+- update(Player *player, Entity *entities[], int entity_count, float delta_time): Updates the player and entities and account for framerate variations.
 - render_textures(SDL_Renderer* ren, Background *background, Player *player, Entity *entities[]): Renders game elements.
 
 ## File Structure
 
-    ```bash
-    /sdl-game-engine
-    │
-    ├── main.c                # Entry point of the game engine (contains main game loop)
-    ├── player.c              # Player functionality
-    ├── texture.c             # Texture handling
-    ├── config.c              # Configuration settings
-    ├── entity.c              # Entity management
-    ├── collider.c            # Collision detection
-    ├── background.c          # Background rendering
-    ├── resourceManager.c     # Resource management (load and unload)
-    ├── main.h                # Header file for main functions
-    ├── player.h              # Header file for player functions
-    ├── texture.h             # Header file for texture functions
-    ├── config.h              # Header file for configuration settings
-    ├── entity.h              # Header file for entity functions
-    ├── collider.h            # Header file for collision functions
-    ├── background.h          # Header file for background functions
-    ├── resourceManager.h     # Header file for resource management
-    └── README.md             # This README file
-    ```
+```bash
+/C-Game-Engine
+│
+├── /src/                  # Source files
+│   ├── /components/       # Components c files
+│   ├── /managers/         # System c files
+│   ├── config.json        # Main engine configuration file
+│   └── main.c             # Entry point for the engine
+│
+├── /build/                # Built files
+│   ├── main               # Built executable
+│   └── /tests/            # Automatic built tests
+│
+├── /assets/               # Game assets like images, audio...
+│
+├── /docs/                 # Documentation files
+│   └── /html/             # Back-end API documentation
+│
+├── /tests/                # Unit tests
+│
+├── TODO.md                # TODO list
+├── README.md              # Readme file
+└── LICENSE                # License file
+```
+
+## Naming Conventions
+
+In order to maintain consistency and readability in the codebase, the following naming conventions are followed:
+
+- **File Names**: We use **snake_case** for file names to enhance clarity.  
+  *Example*: `resource_manager.c`, `scene_manager.h`
+
+- **Types (Structs and Classes)**: We use **PascalCase** for naming types such as structs and classes.  
+  *Example*: `ColliderComponent`, `TransformComponent`
+
+- **Constants**: We use **UPPER_SNAKE_CASE** for constants to distinguish them easily.  
+  *Example*: `SCREEN_WIDTH`, `CONFIG_PATH`
+
+- **Functions and Variables**: We use **snake_case** for naming functions and variables, ensuring that they are descriptive and clear.  
+  *Example*: `load_resources()`, `delta_time`
+
+Following these conventions will help us write clean, maintainable code that is easy to navigate and understand.
+
 
 ## Contributing
 Contributions are welcome. Feel free to submit pull requests or open issues to discuss enhancements or bugs.
@@ -99,3 +135,7 @@ This project is licensed under the MIT License, allowing for both personal and c
 ## Acknowledgments
 - SDL for the HAL library used as a base for the game engine.
 - SDL_image for image loading support.
+
+## Perspectives
+- **Migrating to C++**: Perspectives of evolutions include transitionning to C++ (for now, I am merely using C for learning purposes). For this reason, the current C codebase is structured with the potential for future migration to C++ in mind, making the transition smoother if and when it happens.
+- **Supporting higher levels of abstraction**: Once the C backend reaches a sufficient level of maturity, the project aims to implement bindings for higher-level languages such as Python, allowing scripting capabilities. Additionally, there are plans to explore the possibility of introducing a visual development interface, making the engine accessible to users who prefer event-driven or GUI-based design.

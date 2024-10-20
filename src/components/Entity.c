@@ -1,13 +1,13 @@
-#include "../components/Entity.h"
-#include "../components/Collider.h"
+#include "../components/entity.h"
+#include "../components/collider_component.h"
 
-#include "../Config.h"
+#include "../config.h"
 
-#include "../managers/ResourceManager.h"
-#include "../managers/MemoryManager.h"
+#include "../managers/resource_manager.h"
+#include "../managers/memory_manager.h"
 
 Entity* init_entity(SDL_Renderer *ren,
-                    ResourceManager *resourceManager,
+                    ResourceManager *resource_manager,
                     int speed,
                     int velX,
                     int velY) {
@@ -27,13 +27,13 @@ Entity* init_entity(SDL_Renderer *ren,
     entity->rect.y = SCREEN_HEIGHT / 2.0f;
 
     // Loading entity texture
-    entity->texture = get_texture(resourceManager, "missing_texture");
+    entity->texture = get_texture(resource_manager, "missing_texture");
     if (!entity->texture) {
         printf("Failed to load entity texture or fallback texture\n");
     }
 
-    entity->posAccumulator.x = SCREEN_WIDTH / 2.0f;
-    entity->posAccumulator.y = SCREEN_HEIGHT / 2.0f;
+    entity->position_accumulator.x = SCREEN_WIDTH / 2.0f;
+    entity->position_accumulator.y = SCREEN_HEIGHT / 2.0f;
     
     entity->collider.rect = entity->rect;
     entity->collider.isCircle = 0;
@@ -42,15 +42,15 @@ Entity* init_entity(SDL_Renderer *ren,
     return entity;
 }
 
-void update_entities(Entity *entities[], float deltaTime, int entityCount) {
+void update_entities(Entity *entities[], float delta_time, int entity_count) {
     if (entities != NULL) {
         // Update entities
-        for (size_t i = 0; i < entityCount; i++)
+        for (size_t i = 0; i < entity_count; i++)
         {
             if (entities[i] != NULL) {
-                entities[i]->posAccumulator.x += entities[i]->velX * deltaTime;
-                entities[i]->posAccumulator.y += entities[i]->velY * deltaTime;
-                // printf("Entity (%f) position: (%f, %f)\n", (double)i, entities[i]->posAccumulator.x, entities[i]->posAccumulator.y);
+                entities[i]->position_accumulator.x += entities[i]->velX * delta_time;
+                entities[i]->position_accumulator.y += entities[i]->velY * delta_time;
+                // printf("Entity (%f) position: (%f, %f)\n", (double)i, entities[i]->position_accumulator.x, entities[i]->position_accumulator.y);
 
             }
             else {
@@ -63,17 +63,17 @@ void update_entities(Entity *entities[], float deltaTime, int entityCount) {
 }
 
 void render_entity(SDL_Renderer* ren, Entity *entity) {
-    entity->rect.x = (int)(entity->posAccumulator.x);
-    entity->rect.y = (int)(entity->posAccumulator.y);
+    entity->rect.x = (int)(entity->position_accumulator.x);
+    entity->rect.y = (int)(entity->position_accumulator.y);
     if (entity->texture) {
         SDL_RenderCopy(ren, entity->texture, NULL, &entity->rect);
     }
 }
 
-void free_entities(Entity *entities[], int *entityCount) {
+void free_entities(Entity *entities[], int *entity_count) {
     if (entities) {
         // Free each entity and set the pointer to NULL
-        for (size_t i = 0; i < *entityCount; i++) {
+        for (size_t i = 0; i < *entity_count; i++) {
             if (entities[i]) {
                 if (entities[i]->texture) {
                     SDL_DestroyTexture(entities[i]->texture); // Free associated texture
@@ -85,5 +85,5 @@ void free_entities(Entity *entities[], int *entityCount) {
     }
 
     // Reset entity count to 0
-    *entityCount = 0; 
+    *entity_count = 0; 
 }

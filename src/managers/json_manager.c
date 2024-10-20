@@ -1,9 +1,9 @@
 #include "stdlib.h"
 #include <SDL.h>
 #include <json-c/json.h>
-#include "JsonManager.h"
-#include "ResourceManager.h"
-#include "MemoryManager.h"
+#include "json_manager.h"
+#include "resource_manager.h"
+#include "memory_manager.h"
 
 #define JSON_ERROR -1
 
