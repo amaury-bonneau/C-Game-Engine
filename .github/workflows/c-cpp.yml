@@ -35,6 +35,7 @@ jobs:
             -I src \
             src/main.c \
             src/config.c \
+            src/logic.c \
             src/components/*.c \
             src/managers/*.c \
             -o build/main.exe \
@@ -47,6 +48,7 @@ jobs:
       run: |
         gcc -I /usr/include/SDL2 \
             src/config.c \
+            src/logic.c \
             src/components/*.c \
             src/managers/*.c \
             tests/*.c \
