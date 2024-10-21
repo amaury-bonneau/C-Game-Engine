@@ -22,7 +22,15 @@ jobs:
     - name: Set up GCC and dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y gcc g++ make libsdl2-dev libsdl2-image-dev libjson-c-dev
+        sudo apt-get install -y gcc g++ make cmake libsdl2-dev libsdl2-image-dev libjson-c-dev
+        
+        # Clone GoogleTest and build it as a shared library
+        git clone https://github.com/google/googletest.git
+        cd googletest
+        mkdir build && cd build
+        cmake .. -DBUILD_SHARED_LIBS=ON
+        make
+        sudo make install  # Optionally install if needed
 
     - name: Clean and create build directory
       run: |
@@ -32,7 +40,7 @@ jobs:
     - name: Build Main Application
       run: |
         gcc -I /usr/include/SDL2 \
-            -I src \
+            -I /usr/local/include \
             src/main.c \
             src/config.c \
             src/logic.c \
@@ -42,18 +50,22 @@ jobs:
             -lSDL2 \
             -lSDL2_image \
             -ljson-c \
+            -lgtest \
+            -lgtest_main \
             -Wall -g
 
     - name: Build Tests
       run: |
         gcc -I /usr/include/SDL2 \
+            -I /usr/local/include \
             src/config.c \
             src/logic.c \
             src/components/*.c \
             src/managers/*.c \
             tests/*.c \
             -o build/tests/tests.exe \
-            -L./lib -lgtest -lgmock -lgtest_main -lgmock_main \
+            -lgtest \
+            -lgtest_main \
             -Wall -g
 
     - name: Run Main Application
