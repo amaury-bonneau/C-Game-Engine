@@ -22,29 +22,7 @@ jobs:
     - name: Set up GCC and dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y gcc g++ make libsdl2-dev libsdl2-image-dev libjson-c-dev \
-                                libgtest-dev libgmock-dev
-
-        # GoogleTest/GoogleMock installation
-        echo "Building GoogleTest..."
-        cd /usr/src/gtest
-        sudo cmake -DCMAKE_INSTALL_PREFIX=/usr .
-        sudo make VERBOSE=1  # Increased verbosity for the build process
-        sudo make install     # Use CMake install to place libraries correctly
-        
-        # Verify the installation of GoogleTest
-        echo "Checking for GoogleTest libraries..."
-        ls -l /usr/lib/libgtest* # List files to verify library presence
-
-        echo "Building GoogleMock..."
-        cd /usr/src/gmock
-        sudo cmake -DCMAKE_INSTALL_PREFIX=/usr .
-        sudo make VERBOSE=1  # Increased verbosity for the build process
-        sudo make install     # Use CMake install to place libraries correctly
-        
-        # Verify the installation of GoogleMock
-        echo "Checking for GoogleMock libraries..."
-        ls -l /usr/lib/libgmock* # List files to verify library presence
+        sudo apt-get install -y gcc g++ make libsdl2-dev libsdl2-image-dev libjson-c-dev
 
     - name: Clean and create build directory
       run: |
@@ -72,11 +50,8 @@ jobs:
             src/components/*.c \
             src/managers/*.c \
             tests/*.c \
-            -lgtest \
-            -lgmock \
-            -lgtest_main \
-            -lgmock_main \
             -o build/tests/tests.exe \
+            -L./lib -lgtest -lgmock -lgtest_main -lgmock_main \
             -Wall -g
 
     - name: Run Main Application
