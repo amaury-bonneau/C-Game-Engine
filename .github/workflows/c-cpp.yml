@@ -25,14 +25,53 @@ jobs:
         sudo apt-get install -y gcc g++ make libsdl2-dev libsdl2-image-dev libjson-c-dev \
                                 libgtest-dev libgmock-dev
         # GoogleTest/GoogleMock installation
+        echo "Building GoogleTest..."
         cd /usr/src/gtest
         sudo cmake CMakeLists.txt
-        sudo make
-        sudo cp *.a /usr/lib
+        sudo make VERBOSE=1  # Increased verbosity for the build process
+        echo "Checking for GoogleTest libraries..."
+        ls -l /usr/src/gtest  # List files to verify library presence
+
+        # Verify and copy GoogleTest libraries
+        if [ -f libgtest.a ]; then
+            sudo cp libgtest.a /usr/lib
+            echo "Copied libgtest.a to /usr/lib"
+        else
+            echo "error: libgtest.a not found"
+            exit 1
+        fi
+        
+        if [ -f libgtest_main.a ]; then
+            sudo cp libgtest_main.a /usr/lib
+            echo "Copied libgtest_main.a to /usr/lib"
+        else
+            echo "error: libgtest_main.a not found"
+            exit 1
+        fi
+
+        echo "Building GoogleMock..."
         cd /usr/src/gmock
         sudo cmake CMakeLists.txt
-        sudo make
-        sudo cp *.a /usr/lib
+        sudo make VERBOSE=1  # Increased verbosity for the build process
+        echo "Checking for GoogleMock libraries..."
+        ls -l /usr/src/gmock  # List files to verify library presence
+
+        # Verify and copy GoogleMock libraries
+        if [ -f libgmock.a ]; then
+            sudo cp libgmock.a /usr/lib
+            echo "Copied libgmock.a to /usr/lib"
+        else
+            echo "error: libgmock.a not found"
+            exit 1
+        fi
+        
+        if [ -f libgmock_main.a ]; then
+            sudo cp libgmock_main.a /usr/lib
+            echo "Copied libgmock_main.a to /usr/lib"
+        else
+            echo "error: libgmock_main.a not found"
+            exit 1
+        fi
 
     - name: Clean and create build directory
       run: |
