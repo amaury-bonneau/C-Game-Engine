@@ -56,7 +56,7 @@ jobs:
 
     - name: Build Tests
       run: |
-        gcc -I /usr/include/SDL2 \
+        g++ -I /usr/include/SDL2 \
             -I /usr/local/include \
             src/config.c \
             src/logic.c \
@@ -64,6 +64,9 @@ jobs:
             src/managers/*.c \
             tests/*.c \
             -o build/tests/tests.exe \
+            -lSDL2 \
+            -lSDL2_image \
+            -ljson-c \
             -lgtest \
             -lgtest_main \
             -Wall -g
