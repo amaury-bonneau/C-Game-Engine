@@ -3,6 +3,10 @@
 
 #include <SDL.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // Collider
 typedef struct {
     SDL_Rect rect;
@@ -11,5 +15,9 @@ typedef struct {
 } Collider;
 
 int check_collisions(Collider *a, Collider *b);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

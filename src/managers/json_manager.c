@@ -83,7 +83,7 @@ char* get_nested_value(struct json_object *jsonObject, char *keyPath) {
     return (char*)json_object_get_string(currentObject);
 }
 
-json_object* get_json_value_from_key(json_object *jsonObject, char *key) { 
+json_object* get_json_value_from_key(json_object *jsonObject, const char *key) { 
     struct json_object *valueJsonObject; 
     json_object_object_get_ex(jsonObject, key, &valueJsonObject);  // Fetch the value for the given key
     return valueJsonObject;

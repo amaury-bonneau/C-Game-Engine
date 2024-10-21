@@ -5,6 +5,10 @@
 #include "../components/collider_component.h"
 #include "../managers/resource_manager.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // This structure is an accumulator for floating point player coordinates (used in order to avoid jittery movement) 
 typedef struct {
     float x;
@@ -26,5 +30,9 @@ Player* init_player(SDL_Renderer *ren, ResourceManager *resource_manager, int sp
 void update_player(Player *player, float delta_time);
 void render_player(SDL_Renderer* ren, Player *player);
 void free_player(Player *player);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

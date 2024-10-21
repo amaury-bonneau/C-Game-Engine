@@ -1,6 +1,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // Screen dimensions
 extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;
@@ -21,5 +25,9 @@ extern const char* CONFIG_PATH;
 
 // Timeout for CI/CD game termination
 extern const int GAME_TIMEOUT_SECONDS;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

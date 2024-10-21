@@ -45,7 +45,7 @@ Entity* init_entity(SDL_Renderer *ren,
 void update_entities(Entity *entities[], float delta_time, int entity_count) {
     if (entities != NULL) {
         // Update entities
-        for (size_t i = 0; i < entity_count; i++)
+        for (size_t i = 0; i < (size_t)entity_count; i++)
         {
             if (entities[i] != NULL) {
                 entities[i]->position_accumulator.x += entities[i]->velX * delta_time;
@@ -73,7 +73,7 @@ void render_entity(SDL_Renderer* ren, Entity *entity) {
 void free_entities(Entity *entities[], int *entity_count) {
     if (entities) {
         // Free each entity and set the pointer to NULL
-        for (size_t i = 0; i < *entity_count; i++) {
+        for (size_t i = 0; i < (size_t)*entity_count; i++) {
             if (entities[i]) {
                 if (entities[i]->texture) {
                     SDL_DestroyTexture(entities[i]->texture); // Free associated texture

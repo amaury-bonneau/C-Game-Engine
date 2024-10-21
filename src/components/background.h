@@ -5,6 +5,10 @@
 
 #include <SDL.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct
 {
     SDL_Rect rect;
@@ -12,8 +16,12 @@ typedef struct
 } Background;
 
 
-Background init_background(SDL_Renderer *ren, ResourceManager *resource_manager);
+Background* init_background(SDL_Renderer *ren, ResourceManager *resource_manager);
 void render_background(SDL_Renderer *ren, Background *background);
 void free_background(Background *background);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

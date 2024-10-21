@@ -7,6 +7,10 @@
 
 #include "../managers/resource_manager.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // Generic entity
 typedef struct {
     int speed;
@@ -23,5 +27,9 @@ void update_entities(Entity *entities[], float delta_time, int entityIndex);
 void render_entity(SDL_Renderer* ren, Entity *entity);
 void free_entity(Entity *entity);
 void free_entities(Entity *entities[], int *entity_count);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

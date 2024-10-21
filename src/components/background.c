@@ -2,13 +2,14 @@
 #include "../components/background.h"
 
 #include "../managers/resource_manager.h"
+#include "../managers/memory_manager.h"
 
-Background init_background(SDL_Renderer *ren,
+Background* init_background(SDL_Renderer *ren,
                             ResourceManager *resource_manager) {
-    Background background;
-    background.texture =  get_texture(resource_manager, "background");
+    Background *background = (Background*)allocateMemory(sizeof(Background));  // Allocate memory for Player
+    background->texture =  get_texture(resource_manager, "background");
 
-    if (!background.texture) {
+    if (!background->texture) {
         printf("Failed to load background texture or fallback texture\n");
     }
     return background;

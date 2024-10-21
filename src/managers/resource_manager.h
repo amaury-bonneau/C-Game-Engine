@@ -5,6 +5,10 @@
 
 #define MAX_TEXTURES 100
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     char *key;
     SDL_Texture *texture;
@@ -20,5 +24,9 @@ ResourceManager* load_resources(SDL_Renderer* ren);
 SDL_Texture* get_texture(ResourceManager* resource_manager, const char* key);
 void unload_textures(ResourceManager* resource_manager);
 void unload_resources(ResourceManager* resource_manager);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
